@@ -41,3 +41,6 @@ learnings.md
 .vercel/
 .agent-native/
 data/*.lock
+
+# Local Clips/record scratch (do not ship node_modules / mp4s)
+artifacts/

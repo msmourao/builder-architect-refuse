@@ -1,33 +1,62 @@
-# Chat
+# Architect Refuse
 
-The minimal agent-native starter app — a clean, ChatGPT-style shell with chat at
-the center, durable threads, standard app navigation, auth, live sync, and
-actions. Start here when you want a real browser app to build on without
-committing to a domain template.
+Agent-Native hackathon entry: a shared **`architect-gate`** action that forces
+**Locate → Diagnose → Apply|Refuse** before risky edits. The React UI and the
+agent call the same `defineAction` — not a chat-only prompt.
 
-**Live app: [chat.agent-native.com](https://chat.agent-native.com?utm_source=github&utm_medium=referral&utm_content=chat-readme)**
+**Repo:** https://github.com/msmourao/builder-architect-refuse  
+**Hackathon:** [Builder Agent-Native](https://www.builder.io/hackathon) · submit by **2026-11-09 23:59 PT**
 
-Chat is the basic agent-native app starting point. It gives you the app-agent
-loop wired end to end and one example action, so you can add your own UI, data,
-and actions on top.
+## Why it exists
 
-## Features
+Coding agents invent patch targets when Locate is empty. `architect-gate` is a
+deterministic policy gate:
 
-- ChatGPT-style shell with a threads list and durable chat history.
-- Auth, live sync, and application state wired out of the box.
-- The action surface the agent and UI share, plus one example action to copy.
-- A minimal, brandable base for any domain app.
+| Input | Decision |
+|-------|----------|
+| Empty `locatedPaths` / `unclear-locate` | **Refuse** |
+| Risk `secrets` / `destructive-sql` / `force-push` | **Refuse** |
+| Confidence &lt; 0.4 | **Refuse** |
+| `broad-rewrite` with confidence &lt; 0.75 | **Refuse** |
+| Paths + confidence ≥ 0.4 + safe risk | **Apply** (scoped paths) |
 
-## Develop locally
+Logic lives in `shared/architect-gate-logic.ts` and is exposed as
+`actions/architect-gate.ts` (`mcpTool: true`, POST).
 
-Scaffold your own copy and run it:
+## Demo (local)
 
 ```bash
-npx --yes @agent-native/core@latest create my-app --standalone --template chat
-cd my-app
 corepack enable
 pnpm install
 pnpm dev
 ```
 
-Full docs: [agent-native.com/docs/template-chat](https://agent-native.com/docs/template-chat?utm_source=github&utm_medium=referral&utm_content=chat-readme).
+Open `/home`. Use the **Try architect-gate** buttons (no LLM required), or ask
+chat to run `architect-gate` on a risky edit (needs a connected model provider).
+
+```bash
+pnpm test
+pnpm action architect-gate --intent "patch login" --risk unclear-locate
+```
+
+## Hosting
+
+Production needs `DATABASE_URL` (Postgres) + `BETTER_AUTH_SECRET`. Neon is
+provisioned for this entry (secrets local only). Planned public host: **Azure**
+(Container Apps / App Service) when we publish — not required to record Clips.
+See [Agent-Native deploy](https://www.agent-native.com/docs/deploy-an-app);
+`Dockerfile` + `netlify.toml` are in-repo for later.
+
+## Clips + submit checklist
+
+1. Record a **public Clips** demo: https://www.agent-native.com/apps/clips/
+2. Show home gate panel (Refuse empty → Refuse secrets → Apply) then one chat turn.
+3. Submit: https://www.builder.io/hackathon/submit  
+   - Project name: **Architect Refuse**  
+   - GitHub: this repo  
+   - Clips URL: (after recording)
+
+## Scaffold
+
+Built from `@agent-native/core` Chat template (`0.220.0`). Framework docs:
+https://www.agent-native.com/docs

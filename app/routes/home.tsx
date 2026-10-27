@@ -1,3 +1,4 @@
+import HomeLoading from "@/components/home/HomeLoading";
 import HomePage from "@/components/home/HomePage";
 import { APP_TITLE } from "@/lib/app-config";
 
@@ -18,6 +19,11 @@ export function meta() {
     { name: "twitter:title", content: SEO_TITLE },
     { name: "twitter:description", content: SEO_DESCRIPTION },
   ];
+}
+
+/** Shown during SSR→client hydrate so Home is never a blank black frame. */
+export function HydrateFallback() {
+  return <HomeLoading label="Opening Architect Refuse…" />;
 }
 
 export default function HomeRoute() {

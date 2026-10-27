@@ -63,6 +63,8 @@ const messages = {
       "Edit {{file}} — or call architect-gate with empty locate to see a Refuse.",
     lead: "Locate → Diagnose → Apply|Refuse — one action contract for UI and agent.",
     leadTry: "Ask the agent to run architect-gate on a risky edit.",
+    loading: "Opening Architect Refuse…",
+    composerLoading: "Loading composer…",
     title: "Architect Refuse",
   },
 

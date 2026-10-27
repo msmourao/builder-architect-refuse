@@ -8,8 +8,9 @@ import {
 import { isSettingsPathname } from "@agent-native/toolkit/app/settings";
 import { IconMenu2 } from "@tabler/icons-react";
 import { lazy, Suspense, useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigation } from "react-router";
 
+import HomeLoading from "@/components/home/HomeLoading";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -48,10 +49,16 @@ function routeOwnsToolbar(pathname: string): boolean {
 
 export function Layout({ children }: LayoutProps) {
   const location = useLocation();
+  const navigation = useNavigation();
   const t = useT();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isChatRoute = isChatPathname(location.pathname);
+  // Only while redirecting *into* Home — not on incidental loads already there.
+  const homeNavPending =
+    navigation.state === "loading" &&
+    navigation.location?.pathname === HOME_PATH &&
+    location.pathname !== HOME_PATH;
   // Settings brings its own navigation, header, and agent toggle, so it
   // renders full width.
   const settingsOwnsChrome = isSettingsPathname(location.pathname);
@@ -132,7 +139,11 @@ export function Layout({ children }: LayoutProps) {
         </Suspense>
       )}
       <main className="agent-native-app-main min-w-0 flex-1 overflow-y-auto overscroll-contain">
-        {children}
+        {homeNavPending ? (
+          <HomeLoading label={t("home.loading")} />
+        ) : (
+          children
+        )}
       </main>
     </div>
   );
