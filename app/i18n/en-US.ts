@@ -51,7 +51,7 @@ const messages = {
   },
   home: {
     communityDescription: "Join the Agent-Native community",
-    composerPlaceholder: "Call the hello action for Alex",
+    composerPlaceholder: "Gate a change with architect-gate",
     communityTitle: "Connect with us",
     docsAddAction: "Add an action",
     docsAddPage: "Add a page",
@@ -59,11 +59,13 @@ const messages = {
     docsGettingStarted: "Getting started",
     docsKeyConcepts: "Key concepts",
     docsTitle: "Documentation",
-    editHint: "Edit {{file}} and save, then ask again to see the new greeting.",
-    lead: "Your app's UI and its agent share one set of actions.",
-    leadTry: "Ask the agent to call the hello action.",
-    title: "Get started",
+    editHint:
+      "Edit {{file}} — or call architect-gate with empty locate to see a Refuse.",
+    lead: "Locate → Diagnose → Apply|Refuse — one action contract for UI and agent.",
+    leadTry: "Ask the agent to run architect-gate on a risky edit.",
+    title: "Architect Refuse",
   },
+
   navigation: {
     chat: "Chat",
     collapseSidebar: "Collapse Sidebar",

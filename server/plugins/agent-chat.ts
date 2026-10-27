@@ -9,6 +9,7 @@ import actionsRegistry from "../../.generated/actions-registry.js";
 const INITIAL_TOOL_NAMES = [
   "view-screen",
   "navigate",
+  "architect-gate",
   "hello",
   "provider-api-request",
 ];
@@ -19,9 +20,10 @@ export default createAgentChatPlugin({
   mcp: { connectorCatalog: [] },
   initialToolNames: INITIAL_TOOL_NAMES,
   resolveOrgId: async (event) => (await getOrgContext(event)).orgId,
-  systemPrompt: `You are the Chat app agent.
+  systemPrompt: `You are the Architect Refuse agent for an Agent-Native Builder app.
 
-This is a minimal chat-first Agent-Native app. The chat is the product surface, and actions are the contract shared by chat, UI, HTTP, MCP, A2A, and CLI.
+Product loop: Locate → Diagnose → Apply|Refuse. Before proposing or applying a risky edit, call the architect-gate action with intent, locatedPaths, confidence, and risk. Honor refuse — do not invent targets when Locate is empty.
 
-Use actions as the source of truth. Start by inspecting the current screen when context matters. When the user asks to extend this app, keep the change small and agent-native: add or update actions, expose useful UI, and keep application state/navigation visible to the agent.`,
+Actions are the shared contract for chat, UI, HTTP, MCP, A2A, and CLI. Prefer small, evidence-backed changes; keep navigation and state visible to the agent.`,
 });
+

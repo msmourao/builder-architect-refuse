@@ -48,7 +48,7 @@ const INLINE_COMPOSER_STYLE = {
   background: "transparent",
 } as const;
 
-const EDIT_HINT_CODE = { file: "actions/hello.ts" };
+const EDIT_HINT_CODE = { file: "actions/architect-gate.ts" };
 
 /** Placeholder values that `WithCode` swaps back out for code chips. */
 function codeSlots(code: Record<string, string>): Record<string, string> {
