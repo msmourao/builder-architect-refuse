@@ -54,7 +54,7 @@ See [Agent-Native deploy](https://www.agent-native.com/docs/deploy-an-app);
 3. Submit: https://www.builder.io/hackathon/submit  
    - Project name: **Architect Refuse**  
    - GitHub: this repo  
-   - Clips URL: (after recording)
+   - Clips URL: https://clips.agent-native.com/r/OucjSH7d8BbY
 
 ## Scaffold
 
