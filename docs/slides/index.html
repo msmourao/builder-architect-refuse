@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Architect Refuse — slides</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101114;
+      --panel: #181a1f;
+      --line: #2a2d34;
+      --text: #f3f0e8;
+      --muted: #9a958c;
+      --accent: #f5d38a;
+      --rose: #e7a0a8;
+      --green: #9dceb4;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", sans-serif;
+    }
+    .deck { width: 1920px; height: 1080px; transform-origin: 0 0; position: relative; }
+    .slide {
+      display: none;
+      height: 100%;
+      padding: 88px 120px 120px;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide.on { display: flex; }
+    .kicker {
+      margin: 0 0 18px;
+      color: var(--accent);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 18px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 84px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+    h2 {
+      margin: 0 0 28px;
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .lead { margin: 28px 0 0; max-width: 1280px; font-size: 34px; line-height: 1.35; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 12px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px 28px 32px;
+    }
+    .card small {
+      display: block;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .card strong { display: block; font-size: 32px; font-weight: 600; margin-bottom: 14px; }
+    .card p { margin: 0; font-size: 24px; line-height: 1.4; color: var(--muted); }
+    .card.refuse { border-color: #5c3a40; }
+    .card.refuse strong { color: var(--rose); }
+    .card.apply { border-color: #3f4d3a; }
+    .card.apply strong { color: var(--green); }
+    table { width: 100%; border-collapse: collapse; font-size: 30px; }
+    th, td { text-align: left; padding: 18px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 500; font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; }
+    td.no { color: var(--rose); }
+    td.yes { color: var(--green); }
+    .links { margin-top: 48px; display: flex; flex-direction: column; gap: 14px; }
+    .links a { color: var(--text); font-size: 28px; }
+    .foot {
+      position: absolute;
+      left: 120px;
+      right: 120px;
+      bottom: 42px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .dots { display: flex; gap: 10px; align-items: center; }
+    .dots i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #3a3e46;
+      display: block;
+    }
+    .dots i.on { background: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+    <section class="slide on">
+      <p class="kicker">Builder · Agent-Native</p>
+      <h1>Architect Refuse</h1>
+      <p class="lead">The no is part of the product. Apply and Refuse share one door.</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">The failure</p>
+      <h2>An agent with no path invents a file.</h2>
+      <p class="lead">You ask for a small fix on the login screen and never name the file. The answer comes back almost sure, and it edits a file that was not in the project.</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">One door</p>
+      <h2>architect-gate</h2>
+      <p class="lead">The button on Architect Refuse and the agent in chat both call the same <code>defineAction</code>. Same rule. Same receipt. Locate, then diagnose, then Apply or Refuse.</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">The rule</p>
+      <h2>What the door allows.</h2>
+      <table>
+        <thead>
+          <tr><th>Input</th><th>Decision</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Empty locate, or no path</td><td class="no">Refuse</td></tr>
+          <tr><td>Secrets, destructive SQL, force-push</td><td class="no">Refuse</td></tr>
+          <tr><td>Confidence under 0.4</td><td class="no">Refuse</td></tr>
+          <tr><td>A clear path, safe risk, confidence at least 0.4</td><td class="yes">Apply, and only that path</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">Three requests, one page</p>
+      <div class="grid">
+        <article class="card refuse">
+          <small>Refuse — empty Locate</small>
+          <strong>No path</strong>
+          <p>Refuse: empty Locate. Do not Apply without evidence. Confidence 0.9 does not invent a file.</p>
+        </article>
+        <article class="card refuse">
+          <small>Refuse — secrets risk</small>
+          <strong>Wrong file</strong>
+          <p>Refuse: secrets is out of policy for unattended Apply. <code>server/secrets.ts</code> at 0.95 stays closed.</p>
+        </article>
+        <article class="card apply">
+          <small>Apply — clear Locate</small>
+          <strong>Right size</strong>
+          <p>Apply: Locate evidence is sufficient and risk is within policy. Next step names only <code>actions/architect-gate.ts</code>.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">Same receipt</p>
+      <h2>The button and the chat agree.</h2>
+      <p class="lead">A yes has to arrive the same way as a no. No evidence, the answer is no. What you claim has to be on the Architect Refuse page.</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">The entry</p>
+      <h1>Architect Refuse</h1>
+      <p class="lead">Built on the Chat template during the hackathon. The evidence loop is pre-existing PolyStack work, reused as a thin adapter. Solo.</p>
+      <div class="links">
+        <a href="https://clips.agent-native.com/r/2Y11Tmhswtl1">Public clip</a>
+        <a href="https://github.com/msmourao/builder-architect-refuse">github.com/msmourao/builder-architect-refuse</a>
+      </div>
+    </section>
+
+    <div class="foot">
+      <span id="count">1 / 7</span>
+      <span class="dots" id="dots"></span>
+    </div>
+  </div>
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const dots = document.getElementById("dots");
+    const count = document.getElementById("count");
+    slides.forEach(function (_, i) {
+      const dot = document.createElement("i");
+      dot.addEventListener("click", function (event) {
+        event.stopPropagation();
+        go(i);
+      });
+      dots.appendChild(dot);
+    });
+    function go(i) {
+      const n = (i + slides.length) % slides.length;
+      slides.forEach(function (slide, index) { slide.classList.toggle("on", index === n); });
+      Array.from(dots.children).forEach(function (dot, index) { dot.classList.toggle("on", index === n); });
+      count.textContent = (n + 1) + " / " + slides.length;
+      history.replaceState(null, "", "#" + (n + 1));
+    }
+    function current() {
+      const hash = parseInt(location.hash.slice(1), 10);
+      return hash >= 1 && hash <= slides.length ? hash - 1 : slides.findIndex(function (slide) { return slide.classList.contains("on"); });
+    }
+    addEventListener("keydown", function (event) {
+      if (event.key === "ArrowRight" || event.key === " " || event.key === "PageDown") {
+        event.preventDefault();
+        go(current() + 1);
+      } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        event.preventDefault();
+        go(current() - 1);
+      } else if (event.key === "Home") {
+        go(0);
+      } else if (event.key === "End") {
+        go(slides.length - 1);
+      }
+    });
+    addEventListener("click", function (event) {
+      if (event.target.closest("a") || event.target.closest(".dots")) return;
+      go(current() + (event.clientX < innerWidth * 0.28 ? -1 : 1));
+    });
+    function fit() {
+      const deck = document.getElementById("deck");
+      const scale = Math.min(innerWidth / 1920, innerHeight / 1080);
+      deck.style.transform = "scale(" + scale + ")";
+      deck.style.marginLeft = ((innerWidth - 1920 * scale) / 2) + "px";
+      deck.style.marginTop = ((innerHeight - 1080 * scale) / 2) + "px";
+    }
+    addEventListener("resize", fit);
+    fit();
+    go(current());
+  </script>
+</body>
+</html>

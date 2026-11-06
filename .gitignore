@@ -44,3 +44,4 @@ data/*.lock
 
 # Local Clips/record scratch (do not ship node_modules / mp4s)
 artifacts/
+docs/video-frames/
