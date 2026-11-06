@@ -230,6 +230,7 @@
       deck.style.marginTop = ((innerHeight - 1080 * scale) / 2) + "px";
     }
     addEventListener("resize", fit);
+    addEventListener("hashchange", function () { go(current()); });
     fit();
     go(current());
   </script>
